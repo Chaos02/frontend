@@ -137,6 +137,10 @@ export class HaGenericPicker extends LitElement {
   // helper to set new value after closing picker, to avoid flicker
   private _newValue?: string;
 
+  @property({ attribute: "error-message" }) public errorMessage?: string;
+
+  @property({ type: Boolean, reflect: true }) public invalid = false;
+
   private _unsubscribeTinyKeys?: () => void;
 
   protected render() {
@@ -173,6 +177,8 @@ export class HaGenericPicker extends LitElement {
                   .value=${this.value}
                   .required=${this.required}
                   .disabled=${this.disabled}
+                  .errorMessage=${this.errorMessage}
+                  .invalid=${this.invalid}
                   .hideClearIcon=${this.hideClearIcon}
                   .valueRenderer=${this.valueRenderer}
                 >
@@ -257,11 +263,16 @@ export class HaGenericPicker extends LitElement {
   );
 
   private _renderHelper() {
-    return this.helper
-      ? html`<ha-input-helper-text .disabled=${this.disabled}
-          >${this.helper}</ha-input-helper-text
-        >`
-      : nothing;
+    const showError = this.invalid && this.errorMessage;
+    const showHelper = !showError && this.helper;
+
+    if (!showError && !showHelper) {
+      return nothing;
+    }
+
+    return html`<ha-input-helper-text .disabled=${this.disabled}>
+      ${showError ? this.errorMessage : this.helper}
+    </ha-input-helper-text>`;
   }
 
   private _dialogOpened = () => {
@@ -359,6 +370,9 @@ export class HaGenericPicker extends LitElement {
         ha-input-helper-text {
           display: block;
           margin: var(--ha-space-2) 0 0;
+        }
+        :host([invalid]) ha-input-helper-text {
+          color: var(--mdc-theme-error, var(--error-color, #b00020));
         }
 
         wa-popover {
