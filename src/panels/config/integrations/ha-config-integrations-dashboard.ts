@@ -968,6 +968,12 @@ class HaConfigIntegrationsDashboard extends KeyboardShortcutMixin(
     };
   }
 
+  protected supportedSingleKeyShortcuts(): SupportedShortcuts {
+    return {
+      n: () => this._createFlow(),
+    };
+  }
+
   static get styles(): CSSResultGroup {
     return [
       haStyle,
