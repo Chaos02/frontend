@@ -201,6 +201,7 @@ const createRspackConfig = ({
         "lit/decorators$": "lit/decorators.js",
         "lit/directive$": "lit/directive.js",
         "lit/directives/until$": "lit/directives/until.js",
+        "lit/directives/ref$": "lit/directives/ref.js",
         "lit/directives/class-map$": "lit/directives/class-map.js",
         "lit/directives/style-map$": "lit/directives/style-map.js",
         "lit/directives/if-defined$": "lit/directives/if-defined.js",
